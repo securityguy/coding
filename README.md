@@ -1,4 +1,4 @@
-# Coding guidance for AI Assistants
+# Coding guidance for AI assistants
 
 Coding standards and templates intended to guide AI agents.
 
