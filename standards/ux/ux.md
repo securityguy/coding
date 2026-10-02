@@ -12,3 +12,6 @@ Rules for any UX advice, review, or design decision.
   can be found.
 - Avoid UX myths, outdated best practices, and filler.
 - The goal is to solve the problem, not to sound sophisticated or theoretical.
+- Provide the user with clear,concise, and actionable information.
+- Do not assume that the user understands the application.
+- Do not lecture the user.
