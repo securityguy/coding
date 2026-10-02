@@ -5,7 +5,13 @@ Coding standards and templates intended to guide AI agents.
 - `standards/` — standing instructions for all development projects. See `standards/index.md` for what each directory contains.
 - `templates/` — files to copy into projects as needed. See `templates/index.md`.
 
-## Using it
+## History
+
+AI-assisted software develoment can improve efficiency and code quality. However, without guidance, LLMs may use inconsistent
+design patterns, silently add external dependencies, and engage in other poor coding practices. This repo exists to share the
+author's evolving instructions to his assistants and promote collaboration this topic.
+
+## Use,
 
 - Clone the repository to a stable path, for example `~/.coding`.
 - Review the contents of the files and update them as desired.
@@ -16,7 +22,7 @@ Coding standards and templates intended to guide AI agents.
 
 Everything in this repo is released under CC0 1.0 (see `LICENSE`). Take it, change it, use it as you wish. No attribution is required.
 
-PRs are welcome.
+PRs are welcome and feel free to open an issue if you spot anything that should be changed.
 
 ## No Warranty
 
