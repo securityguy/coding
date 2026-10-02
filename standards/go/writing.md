@@ -34,7 +34,7 @@ container is not a family.
 (`net/http`, not `pkg/net/http`) nor Go's own module-layout guidance, which
 documents `internal/` and `cmd/` and nothing else.
 
-Two concrete objections:
+We do not use pkg/ for two reasons:
 
 - It adds a path segment carrying no information. Every package in a module is
   a package; saying so in the import path is like a directory named `files/`.
@@ -66,8 +66,7 @@ In a repository that already has `pkg/`:
 
 Every application defines its identity once, in a root-level `app/` package,
 and reaches it only through accessors. Nothing else names or versions the
-application: not the startup banner, `--version`, MCP server info, health
-endpoints, log lines, or user-agent strings.
+application.
 
 The package is a template, kept as real code rather than a snippet in this
 document: `templates/go/app/` in this repository. Copy the directory to the
@@ -222,15 +221,13 @@ Copyright (c) 2026 [COMPANY]
 
 ## Constructors and Dependencies
 
-- Use `New()` constructors and functional options for packages that manage
-  state, dependencies, configuration, clients, services, or long-lived
-  components.
-- Do not add constructors to simple utility or pure-function packages unless
-  useful.
+- Use `New()` constructors and the go functional options pattern for packages that manage
+  state, dependencies, configuration, clients, services, or long-lived components.
+- Do not add constructors to simple utility or pure-function packages unless useful.
 - Verify libraries/frameworks before using them.
 - Prefer the standard library and existing project dependencies.
-- Ask before adding large frameworks, code generators, services, or
-  public-API-affecting dependencies.
+- Ask before adding large frameworks, code generators, services, or public-API-affecting dependencies.
+- Do not introduce new external dependencies without user approval.
 
 ## Logging
 
@@ -255,7 +252,7 @@ Levels (use the nearest the chosen logger provides):
 ## Errors
 
 - Always handle errors explicitly.
-- Return errors as the last return value.
+- Return errors as the last return value in the idiomatic go way.
 - Wrap errors with context using `fmt.Errorf("...: %w", err)`.
 - Error strings are lower case and do not end with punctuation, since they
   are usually wrapped: `open config: ...`, not `Failed to open config.`
@@ -291,6 +288,7 @@ These are specified once, in their own files:
 - Use `crypto/rand` for cryptographic randomness.
 - Avoid command injection, SQL injection, path traversal, and unsafe handling
   of user-controlled data.
+- Use prepared statements or equvilent to avoid including untrusted data in SQL or other database queries.
 - Use least privilege.
 - Do not log sensitive information.
 
@@ -312,7 +310,6 @@ These are specified once, in their own files:
 - Keep initialisms in one case: `userID`, `baseURL`, `HTTPClient`, never
   `userId` or `HttpClient`.
 - Use `New` for constructors.
-- Prefer interface names ending in `-er` when natural.
 - Keep functions focused.
 - Prefer composition.
 - Use pointer receivers for mutating methods.
