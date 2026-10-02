@@ -3,7 +3,7 @@
 ## Project Structure
 
 Packages live at the root of the source tree, one concept per package. Three
-directories have a reserved meaning; nothing else does:
+directories have a reserved meaning:
 
 | Directory | Holds |
 | --- | --- |
