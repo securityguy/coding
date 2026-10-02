@@ -8,7 +8,7 @@ Coding standards and templates intended to guide AI agents.
 ## Using it
 
 - Clone the repository to a stable path, for example `~/.coding`.
-- Review the contents of the files and update them.
+- Review the contents of the files and update them as desired.
 - Point your agent at the appropriate folders or use symbolic links.
 - Instruct your agent to follow these standards using rules, agent files, and/or sub-agent configurations.
 
