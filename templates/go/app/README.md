@@ -1,5 +1,8 @@
 # `app/` — application identity template
 
+Note: This is not a Go standard. It represents the author's approach to
+standardize and support his release process.
+
 Holds the application's name, tagline, copyright and version. Copy it into new
 Go projects and fill in the constants; do not change anything else. The rules
 are in `standards/go/writing.md` under "Versioning and Copyright"; this
