@@ -2,10 +2,12 @@
 
 ## Overview
 
-Every Go project that compiles on Linux and/or macOS must have a `make test`
-target that executes the full regression suite and summarises the results. It
-is the single entry point for testing: what a developer runs locally, and what
-a pipeline runs to decide whether a build may proceed.
+Every Go project must have a `make test` target that executes the full regression
+suite and summarises the results. It is the single entry point for testing: what a
+developer runs locally, and what a pipeline runs to decide whether a build may proceed.
+
+if unable to comply with the makefile requirements due to p,atform limitations,
+advise the user and request clarification.
 
 There is deliberately one target, not a fast `test` and a full `check`. Two
 targets invite treating the fast one as the gate. The inner loop while
