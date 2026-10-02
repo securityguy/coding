@@ -32,9 +32,7 @@ container is not a family.
 
 `pkg/` is not a Go convention. It appears in neither the standard library
 (`net/http`, not `pkg/net/http`) nor Go's own module-layout guidance, which
-documents `internal/` and `cmd/` and nothing else. It comes from the community
-`golang-standards/project-layout` repository, a name that implies an authority
-it does not have, and one that Go team members have publicly disowned.
+documents `internal/` and `cmd/` and nothing else.
 
 Two concrete objections:
 
