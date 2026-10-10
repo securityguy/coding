@@ -61,6 +61,7 @@ In a repository that already has `pkg/`:
   packages.
 - Ask before preserving legacy behaviour or adding backward compatibility
   during development.
+- Do not repeat the package name as a filename prefix. For example config/save.go and config/command.go are good. DO NOT use config/config_save.go, etc.
 
 ## Versioning and Copyright
 
