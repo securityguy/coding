@@ -3,6 +3,8 @@
 Standing instructions for all development projects. Follow each one where it
 applies.
 
+- `b9/` — release management with `b9`.
+  - `release.md` — what a project must provide and how to write its `b9.yaml`.
 - `go/` — Go standards.
   - `writing.md` — project layout, application identity, logging, errors,
     concurrency, security, and style.
