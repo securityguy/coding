@@ -27,7 +27,7 @@ const (
 
 	// version is bare semver. Build tooling reads this line; keep it a single
 	// one-line assignment.
-	version = "0.1.0"
+	version = "0.0.1"
 )
 
 // Build metadata, injected via ldflags:
@@ -78,7 +78,7 @@ func TagLine() string { return tagLine }
 // Copyright returns the copyright notice.
 func Copyright() string { return copyright }
 
-// Version returns the display form, "0.1.0+1a2b3c4d [20260902155301]", omitting
+// Version returns the display form, "0.0.1+1a2b3c4d [20260902155301]", omitting
 // whichever parts are not stamped.
 //
 // The commit is joined with "+" (SemVer build metadata, ignored in comparisons)

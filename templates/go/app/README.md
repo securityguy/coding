@@ -15,7 +15,7 @@ directory is the source of truth for the code.
 2. Fill in the copyright header in both files (see
    `templates/copyright/header.md`).
 3. Set `name`, `shortName`, `tagLine`, `copyright` and `version` in `app.go`.
-   New projects start at `0.1.0`. `shortName` may equal `name`.
+   New projects start at `0.0.1`. `shortName` may equal `name`.
 4. Replace `<module>` in the ldflags comment with the module path.
 5. Add the ldflags below to the Makefile.
 
@@ -42,8 +42,8 @@ Never inject the version (e.g. from `git describe`); it belongs to the source.
 | `app.BinaryName()` | `example` | telling someone what to type; the name the program was started as |
 | `app.TagLine()` | `Does the thing` | banner, `--version` |
 | `app.Copyright()` | `Copyright (c) …` | banner, `--version` |
-| `app.Version()` | `0.1.0+1a2b3c4d [20260902155301]` | display: banner, `--version`, logs |
-| `app.SemVer()` | `0.1.0` | protocol handshakes, comparisons |
+| `app.Version()` | `0.0.1+1a2b3c4d [20260902155301]` | display: banner, `--version`, logs |
+| `app.SemVer()` | `0.0.1` | protocol handshakes, comparisons |
 | `app.Build()` | `20260902155301` | ordering builds; `""` if unstamped |
 | `app.BuildDate()` | `20260902` | int-only fields; `0` if unstamped |
 | `app.BuildInfo()` | timestamp, toolchain | `--version` detail |

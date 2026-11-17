@@ -93,7 +93,7 @@ templates/go/app/
 | `shortName` | Informal product name for running prose. May equal `name`. |
 | `tagLine` | One-line description, for the banner and `--version`. |
 | `copyright` | Matches the year and holder in the project `LICENSE`. |
-| `version` | Semantic version, bare. New projects start at `0.1.0`. |
+| `version` | Semantic version, bare. New projects start at `0.0.1`. |
 
 ### The accessors
 
@@ -104,8 +104,8 @@ templates/go/app/
 | `BinaryName()` | `example` | **what to type**: help text, hints and errors that name a command. Read from `os.Args[0]` with the path stripped, so it is right when the binary is renamed or run through a link |
 | `TagLine()` | `Does the thing` | banner, `--version` |
 | `Copyright()` | `Copyright (c) …` | banner, `--version` |
-| `Version()` | `0.1.0+1a2b3c4d [20260902155301]` | **display**: banner, `--version`, logs, diagnostics, prompts, APIs meant to be read |
-| `SemVer()` | `0.1.0` | **parseable**: protocol handshakes (MCP `serverInfo`, ACP `Implementation`, device handshakes), version comparisons |
+| `Version()` | `0.0.1+1a2b3c4d [20260902155301]` | **display**: banner, `--version`, logs, diagnostics, prompts, APIs meant to be read |
+| `SemVer()` | `0.0.1` | **parseable**: protocol handshakes (MCP `serverInfo`, ACP `Implementation`, device handshakes), version comparisons |
 | `Build()` | `20260902155301` | **order**: UTC link time as `yyyymmddhhmmss`, or `""` if unstamped |
 | `BuildDate()` | `20260902` | **int day**: YYYYMMDD for an existing int-typed protocol or store; `0` if unstamped |
 | `BuildInfo()` | timestamp, toolchain | `--version` detail lines |
@@ -177,22 +177,22 @@ from a green build.
 on the machine that compiled it and silently disagrees with its own source.
 Stamp only the commit, timestamp, toolchain, and build number.
 
-**The release and the commit are one unbroken token.** `0.1.0 (git: 1a2b3c4d)`
-gets pasted into a bug report as `0.1.0`: the space reads as the end of the
+**The release and the commit are one unbroken token.** `0.0.1 (git: 1a2b3c4d)`
+gets pasted into a bug report as `0.0.1`: the space reads as the end of the
 value and the parenthetical as an aside, so the half identifying the exact
 source is the half that gets dropped. The build number sits after a space in
-brackets, `0.1.0+1a2b3c4d [20260902155301]`, so truncating there still leaves
+brackets, `0.0.1+1a2b3c4d [20260902155301]`, so truncating there still leaves
 the commit attached.
 
 **Attach the commit with `+`, never `-`.** SemVer 2.0.0 gives the two
 separators different meanings, and only one of them is what we mean:
 
 - `+` introduces **build metadata**, which item 10 requires be IGNORED when
-  determining precedence. `0.1.0+1a2b3c4d` compares **equal** to `0.1.0`: it
+  determining precedence. `0.0.1+1a2b3c4d` compares **equal** to `0.0.1`: it
   is that release, built from that commit.
 - `-` introduces a **pre-release** identifier. Item 11: a pre-release version
-  has lower precedence than the normal version. `0.1.0-1a2b3c4d` compares
-  **lower** than `0.1.0`, claiming to be something that came *before* the
+  has lower precedence than the normal version. `0.0.1-1a2b3c4d` compares
+  **lower** than `0.0.1`, claiming to be something that came *before* the
   release rather than an instance of it.
 
 The spec standardises the slot, not its contents: it does not say `+` means
@@ -236,7 +236,7 @@ fmt.Fprintf(os.Stderr, "%s %s\n%s\n", app.Name(), app.Version(), app.Copyright()
 ```
 
 ```
-ExampleApp 0.1.0+1a2b3c4d [20260902155301]
+ExampleApp 0.0.1+1a2b3c4d [20260902155301]
 Copyright (c) 2026 [COMPANY]
 ```
 
