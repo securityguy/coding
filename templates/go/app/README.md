@@ -3,7 +3,7 @@
 Note: This is not a Go standard. It represents the author's approach to
 standardize and support his release process.
 
-Holds the application's name, tagline, copyright and version. Copy it into new
+Holds the application's name, short name, tagline, copyright and version. Copy it into new
 Go projects and fill in the constants; do not change anything else. The rules
 are in `standards/go/writing.md` under "Versioning and Copyright"; this
 directory is the source of truth for the code.
@@ -14,8 +14,8 @@ directory is the source of truth for the code.
    under `pkg/`.
 2. Fill in the copyright header in both files (see
    `templates/copyright/header.md`).
-3. Set `name`, `tagLine`, `copyright` and `version` in `app.go`. New projects
-   start at `0.1.0`.
+3. Set `name`, `shortName`, `tagLine`, `copyright` and `version` in `app.go`.
+   New projects start at `0.1.0`. `shortName` may equal `name`.
 4. Replace `<module>` in the ldflags comment with the module path.
 5. Add the ldflags below to the Makefile.
 
@@ -37,7 +37,9 @@ Never inject the version (e.g. from `git describe`); it belongs to the source.
 
 | Call | Returns | For |
 | --- | --- | --- |
-| `app.Name()` | `ExampleApp` | product name |
+| `app.Name()` | `ExampleApp` | identifying the product: titles, version lines, report headers, User-Agent |
+| `app.ShortName()` | `Example` | running prose: logs, alerts, messages, prompts |
+| `app.BinaryName()` | `example` | telling someone what to type; the name the program was started as |
 | `app.TagLine()` | `Does the thing` | banner, `--version` |
 | `app.Copyright()` | `Copyright (c) …` | banner, `--version` |
 | `app.Version()` | `0.1.0+1a2b3c4d [20260902155301]` | display: banner, `--version`, logs |
@@ -46,7 +48,12 @@ Never inject the version (e.g. from `git describe`); it belongs to the source.
 | `app.BuildDate()` | `20260902` | int-only fields; `0` if unstamped |
 | `app.BuildInfo()` | timestamp, toolchain | `--version` detail |
 
-Always use the accessors.
+Always use the accessors. No other package holds the product name as a
+string: a rename is an edit to `app.go` only.
+
+`BinaryName()` is read from `os.Args[0]`, so under `go test` it is the test
+binary's name. A test that asserts a message containing it sets `os.Args[0]`
+first and restores it afterwards.
 
 ## Bumping the version
 

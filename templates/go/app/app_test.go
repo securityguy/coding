@@ -6,7 +6,10 @@
 package app
 
 import (
+	"os"
+	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 )
 
@@ -66,11 +69,51 @@ func TestBuildDate_Invalid(t *testing.T) {
 
 func TestIdentityAccessors(t *testing.T) {
 	for label, got := range map[string]string{
-		"Name": Name(), "TagLine": TagLine(), "Copyright": Copyright(),
+		"Name": Name(), "ShortName": ShortName(), "TagLine": TagLine(),
+		"Copyright": Copyright(), "BinaryName": BinaryName(),
 	} {
 		if got == "" {
 			t.Errorf("%s() must not be empty", label)
 		}
+	}
+}
+
+func TestBinaryName(t *testing.T) {
+	orig := os.Args
+	t.Cleanup(func() { os.Args = orig })
+
+	dir := filepath.Join(string(filepath.Separator)+"opt", "example", "bin")
+	tests := []struct {
+		name string
+		args []string
+		want string
+	}{
+		{"bare name", []string{"example"}, "example"},
+		{"full path", []string{filepath.Join(dir, "example"), "serve"}, "example"},
+		{"relative path", []string{filepath.Join(".", "example")}, "example"},
+		{"renamed binary", []string{filepath.Join(dir, "other-name")}, "other-name"},
+		{"no arguments", nil, strings.ToLower(name)},
+		{"empty name", []string{""}, strings.ToLower(name)},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			os.Args = tt.args
+			if got := BinaryName(); got != tt.want {
+				t.Errorf("BinaryName()=%q want %q", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestBinaryName_WindowsSuffix(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.Skip("the .exe suffix is only stripped on Windows")
+	}
+	orig := os.Args
+	t.Cleanup(func() { os.Args = orig })
+	os.Args = []string{`C:\Program Files\Example\example.EXE`}
+	if got := BinaryName(); got != "example" {
+		t.Errorf("BinaryName()=%q want %q", got, "example")
 	}
 }
 

@@ -3,8 +3,8 @@
  * Please see LICENSE file for details.                                       *
  ******************************************************************************/
 
-// Package app holds the application's identity: name, tagline, copyright and
-// version. It is the only place any of them is defined.
+// Package app holds the application's identity: name, short name, tagline,
+// copyright and version. It is the only place any of them is defined.
 //
 // Values are unexported and read through accessors, so there is exactly one way
 // to read each. The version is a const so the linker cannot override it; only
@@ -12,12 +12,16 @@
 package app
 
 import (
+	"os"
+	"path/filepath"
 	"runtime"
 	"strconv"
+	"strings"
 )
 
 const (
 	name      = "ExampleApp"
+	shortName = "Example"
 	tagLine   = "Does the thing"
 	copyright = "Copyright (c) [YEAR] [COMPANY]"
 
@@ -42,8 +46,31 @@ var (
 	buildNumber string
 )
 
-// Name returns the product name.
+// Name returns the product name, for identifying the product: titles, version
+// lines, report headers, User-Agent strings.
 func Name() string { return name }
+
+// ShortName returns the informal product name, for running prose: log lines,
+// alerts, messages and prompts ("Example is shutting down").
+func ShortName() string { return shortName }
+
+// BinaryName returns the name this program was started as: the last element
+// of os.Args[0], without its directory and without a Windows ".exe" suffix.
+// Use it wherever text tells someone what to type, so the instruction stays
+// right when the binary is renamed or run through a link. It falls back to
+// the lower-cased product name when the operating system gives no name.
+func BinaryName() string {
+	if len(os.Args) > 0 {
+		b := filepath.Base(os.Args[0])
+		if runtime.GOOS == "windows" && strings.EqualFold(filepath.Ext(b), ".exe") {
+			b = b[:len(b)-len(".exe")]
+		}
+		if b != "" && b != "." && b != string(filepath.Separator) {
+			return b
+		}
+	}
+	return strings.ToLower(name)
+}
 
 // TagLine returns the one-line product description.
 func TagLine() string { return tagLine }

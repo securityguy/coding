@@ -7,7 +7,7 @@ directories have a reserved meaning:
 
 | Directory | Holds |
 | --- | --- |
-| `app/` | Application identity: name, tagline, copyright, version. See Versioning and Copyright. |
+| `app/` | Application identity: name, short name, binary name, tagline, copyright, version. See Versioning and Copyright. |
 | `internal/` | Private implementation. The compiler refuses imports from outside the module, so this is a guarantee rather than a convention. Anything not deliberately part of a public API belongs here. |
 | `cmd/` | Additional executables. A single-binary application keeps `main.go` at the root; use `cmd/<name>/` for further binaries or a repository mixing importable packages with commands. |
 
@@ -71,7 +71,7 @@ application.
 
 The package is a template, kept as real code rather than a snippet in this
 document: `templates/go/app/` in this repository. Copy the directory to the
-project root, change the four constants, and replace `<module>` in the ldflags
+project root, change the five constants, and replace `<module>` in the ldflags
 comment. Its `README.md` covers installation and the Makefile block.
 
 Keeping the code in one place and describing it here is deliberate. A copy of
@@ -80,7 +80,7 @@ from the first, which is the exact defect this section exists to prevent.
 
 ```
 templates/go/app/
-  app.go        the package: four constants, four injected vars, eight accessors
+  app.go        the package: five constants, four injected vars, ten accessors
   app_test.go   pins the properties that regress silently
   README.md     install steps, Makefile ldflags, usage table
 ```
@@ -90,6 +90,7 @@ templates/go/app/
 | Constant | Meaning |
 | --- | --- |
 | `name` | Product name, typically the repository/module name. |
+| `shortName` | Informal product name for running prose. May equal `name`. |
 | `tagLine` | One-line description, for the banner and `--version`. |
 | `copyright` | Matches the year and holder in the project `LICENSE`. |
 | `version` | Semantic version, bare. New projects start at `0.1.0`. |
@@ -98,7 +99,9 @@ templates/go/app/
 
 | Accessor | Returns | Use for |
 | --- | --- | --- |
-| `Name()` | `ExampleApp` | anywhere the product is named |
+| `Name()` | `ExampleApp` | **identification**: titles, version lines, report headers, User-Agent strings, protocol implementation names |
+| `ShortName()` | `Example` | **prose**: log lines, alerts, messages, prompts, UI sentences |
+| `BinaryName()` | `example` | **what to type**: help text, hints and errors that name a command. Read from `os.Args[0]` with the path stripped, so it is right when the binary is renamed or run through a link |
 | `TagLine()` | `Does the thing` | banner, `--version` |
 | `Copyright()` | `Copyright (c) …` | banner, `--version` |
 | `Version()` | `0.1.0+1a2b3c4d [20260902155301]` | **display**: banner, `--version`, logs, diagnostics, prompts, APIs meant to be read |
@@ -122,6 +125,28 @@ which is safely below `math.MaxInt32` on every platform Go supports. Use it
 only when an existing protocol or store already carries build as an `int` and
 cannot take the full stamp; it is enough to know how old a build is, not to
 tell two builds on the same UTC day apart.
+
+### Naming the product
+
+The product name appears as a string in `app/` and nowhere else, so a rename
+is an edit to `app.go`. Every other package calls an accessor:
+
+- `Name()` where the product is being identified.
+- `ShortName()` where it is the subject of a sentence ("Example is shutting
+  down"). Write it as the constant gives it; do not lower-case it.
+- `BinaryName()` where text tells someone what to type (`example admin`).
+  Never hard-code the command name in such text: the binary may be renamed or
+  started through a link, and the instruction must match what the person ran.
+
+A front end gets the names from the back end (a version or status endpoint),
+not from its own constant.
+
+These are not the product label and stay fixed identifiers, each defined
+once: the module path, environment variable prefixes, data directory and file
+names, service names, and the names of protocols or third-party products.
+
+A library uses its own name and never names the application that embeds it;
+where it must refer to one, it says "the host".
 
 `SemVer` is named for *why* you reach for it rather than for its shape.
 "Short" invites someone shortening a log line; `SemVer` says "this is the one
